@@ -1,4 +1,12 @@
 ## Enhanced with asynchronous execution support
+Please use these classes for async execution:
+* `ICommandAsync`
+* `MacroCommandAsync`
+* `SimpleCommandAsync`
+  
+  ![image](https://github.com/jcyuan/puremvc-async-csharp-standard-framework/assets/850854/469f18f4-5a46-4bc2-924c-f33713bbf67b)
+
+
 -------------------------------------------------------
 
 ## [PureMVC](http://puremvc.github.com/) C# Standard Framework
