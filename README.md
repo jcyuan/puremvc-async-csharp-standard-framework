@@ -3,6 +3,8 @@ Please use these classes for async execution:
 * `MacroCommandAsync`
 * `SimpleCommandAsync`
 
+  TODO: Doc & Test
+
 -------------------------------------------------------
 
 ## [PureMVC](http://puremvc.github.com/) C# Standard Framework
