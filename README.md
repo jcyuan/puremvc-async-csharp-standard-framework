@@ -1,3 +1,5 @@
+## Enhanced with asynchronous execution support
+
 ## [PureMVC](http://puremvc.github.com/) C# Standard Framework
 
 PureMVC is a lightweight framework for creating applications based upon the classic [Model-View-Controller](http://en.wikipedia.org/wiki/Model-view-controller) design meta-pattern. This is the specific implementation for the [C#](https://en.wikipedia.org/wiki/C_Sharp_(programming_language)) language. It does not support [modular programming](http://en.wikipedia.org/wiki/Modular_programming) since it uses [Singletons](http://en.wikipedia.org/wiki/Singleton_pattern) as Core actors rather than the [Multiton](http://en.wikipedia.org/wiki/Multiton) used in the [MultiCore](https://github.com/PureMVC/puremvc-csharp-multicore-framework/wiki) Version.
