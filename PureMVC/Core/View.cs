@@ -8,6 +8,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading.Tasks;
 using PureMVC.Interfaces;
 using PureMVC.Patterns.Observer;
 
@@ -50,6 +52,7 @@ namespace PureMVC.Core
             instance = this;
             mediatorMap = new ConcurrentDictionary<string, IMediator>();
             observerMap = new ConcurrentDictionary<string, IList<IObserver>>();
+            asyncObserverMap = new ConcurrentDictionary<string, IList<IObserverAsync>>();
             InitializeView();
         }
 
@@ -99,6 +102,18 @@ namespace PureMVC.Core
                 observerMap.TryAdd(notificationName, new List<IObserver> { observer });
             }
         }
+        
+        public virtual void RegisterObserver(string notificationName, IObserverAsync observer)
+        {
+            if (asyncObserverMap.TryGetValue(notificationName, out var observers))
+            {
+                observers.Add(observer);
+            }
+            else
+            {
+                asyncObserverMap.TryAdd(notificationName, new List<IObserverAsync> { observer });
+            }
+        }
 
         /// <summary>
         /// Notify the <c>IObservers</c> for a particular <c>INotification</c>.
@@ -127,6 +142,16 @@ namespace PureMVC.Core
                 }
             }
         }
+        
+        public virtual async Task NotifyObserversAsync(INotification notification)
+        {
+            if (asyncObserverMap.TryGetValue(notification.Name, out var observersRef))
+            {
+                var observers = new List<IObserverAsync>(observersRef);
+                var tasks = observers.Select(x => x.NotifyObserverAsync(notification)).ToArray();
+                await Task.WhenAll(tasks);
+            }
+        }
 
         /// <summary>
         /// Remove the observer for a given notifyContext from an observer list for a given Notification name.
@@ -136,24 +161,39 @@ namespace PureMVC.Core
         public virtual void RemoveObserver(string notificationName, object notifyContext)
         {
             // the observer list for the notification under inspection
-            if (observerMap.TryGetValue(notificationName, out var observers))
+            if (observerMap.TryGetValue(notificationName, out var observers1))
             {
                 // find the observer for the notifyContext
-                for (var i = 0; i < observers.Count; i++)
+                for (var i = 0; i < observers1.Count; i++)
                 {
-                    if (observers[i].CompareNotifyContext(notifyContext))
+                    if (observers1[i].CompareNotifyContext(notifyContext))
                     {
                         // there can only be one Observer for a given notifyContext 
-					    // in any given Observer list, so remove it and break
-                        observers.RemoveAt(i);
+                        // in any given Observer list, so remove it and break
+                        observers1.RemoveAt(i);
                         break;
                     }
                 }
 
                 // Also, when a Notification's Observer list length falls to
                 // zero, delete the notification key from the observer map
-                if (observers.Count == 0)
+                if (observers1.Count == 0)
                     observerMap.TryRemove(notificationName, out _);
+            }
+            
+            if (asyncObserverMap.TryGetValue(notificationName, out var observers2))
+            {
+                for (var i = 0; i < observers2.Count; i++)
+                {
+                    if (observers2[i].CompareNotifyContext(notifyContext))
+                    {
+                        observers2.RemoveAt(i);
+                        break;
+                    }
+                }
+
+                if (observers2.Count == 0)
+                    asyncObserverMap.TryRemove(notificationName, out _);
             }
         }
 
@@ -251,6 +291,7 @@ namespace PureMVC.Core
 
         /// <summary>Mapping of Notification names to Observer lists</summary>
         protected readonly ConcurrentDictionary<string, IList<IObserver>> observerMap;
+        protected readonly ConcurrentDictionary<string, IList<IObserverAsync>> asyncObserverMap;
 
         /// <summary>Singleton instance</summary>
         protected static IView instance;

@@ -5,6 +5,8 @@
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
+using System.Threading.Tasks;
+
 namespace PureMVC.Interfaces
 {
     /// <summary>
@@ -33,6 +35,7 @@ namespace PureMVC.Interfaces
         /// <param name="notificationName">the name of the <c>INotifications</c> to notify this <c>IObserver</c> of</param>
         /// <param name="observer">the <c>IObserver</c> to register</param>
         void RegisterObserver(string notificationName, IObserver observer);
+        void RegisterObserver(string notificationName, IObserverAsync observer);
 
         /// <summary>
         /// Remove a group of observers from the observer list for a given Notification name.
@@ -53,6 +56,7 @@ namespace PureMVC.Interfaces
         /// </remarks>
         /// <param name="notification">the <c>INotification</c> to notify <c>IObservers</c> of.</param>
         void NotifyObservers(INotification notification);
+        Task NotifyObserversAsync(INotification notification);
 
         /// <summary>
         /// Register an <c>IMediator</c> instance with the <c>View</c>.

@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.Threading.Tasks;
 
 namespace PureMVC.Interfaces
 {
@@ -45,6 +46,7 @@ namespace PureMVC.Interfaces
         /// <param name="notificationName">the name of the <c>INotification</c></param>
         /// <param name="factory">the FuncDelegate of the <c>ICommand</c></param>
         void RegisterCommand(string notificationName, Func<ICommand> factory);
+        void RegisterCommand(string notificationName, Func<ICommandAsync> factory);
 
         /// <summary>
         /// Execute the <c>ICommand</c> previously registered as the
@@ -52,6 +54,7 @@ namespace PureMVC.Interfaces
         /// </summary>
         /// <param name="notification">the <c>INotification</c> to execute the associated <c>ICommand</c> for</param>
         void ExecuteCommand(INotification notification);
+        Task ExecuteCommandAsync(INotification notification);
 
         /// <summary>
         /// Remove a previously registered <c>ICommand</c> to <c>INotification</c> mapping.

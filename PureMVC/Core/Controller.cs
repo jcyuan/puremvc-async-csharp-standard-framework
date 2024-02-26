@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Threading.Tasks;
 using PureMVC.Interfaces;
 using PureMVC.Patterns.Observer;
 
@@ -61,6 +62,7 @@ namespace PureMVC.Core
             if (instance != null) throw new Exception(SingletonMsg);
             instance = this;
             commandMap = new ConcurrentDictionary<string, Func<ICommand>>();
+            asyncCommandMap = new ConcurrentDictionary<string, Func<ICommandAsync>>();
             InitializeController();
         }
 
@@ -117,6 +119,15 @@ namespace PureMVC.Core
             }
         }
 
+        public async Task ExecuteCommandAsync(INotification notification)
+        {
+            if (asyncCommandMap.TryGetValue(notification.Name, out var factory))
+            {
+                var commandInstance = factory();
+                await commandInstance.ExecuteAsync(notification);
+            }
+        }
+
         /// <summary>
         /// Register a particular <c>ICommand</c> class as the handler 
         /// for a particular <c>INotification</c>.
@@ -142,6 +153,15 @@ namespace PureMVC.Core
             }
             commandMap[notificationName] = factory;
         }
+        
+        public void RegisterCommand(string notificationName, Func<ICommandAsync> factory)
+        {
+            if (asyncCommandMap.TryGetValue(notificationName, out _) == false)
+            {
+                view.RegisterObserver(notificationName, new ObserverAsync(ExecuteCommandAsync, this));
+            }
+            asyncCommandMap[notificationName] = factory;
+        }
 
         /// <summary>
         /// Remove a previously registered <c>ICommand</c> to <c>INotification</c> mapping.
@@ -150,6 +170,10 @@ namespace PureMVC.Core
         public virtual void RemoveCommand(string notificationName)
         {
             if (commandMap.TryRemove(notificationName, out _))
+            {
+                view.RemoveObserver(notificationName, this);
+            }
+            if (asyncCommandMap.TryRemove(notificationName, out _))
             {
                 view.RemoveObserver(notificationName, this);
             }
@@ -162,7 +186,7 @@ namespace PureMVC.Core
         /// <returns>whether a Command is currently registered for the given <c>notificationName</c>.</returns>
         public virtual bool HasCommand(string notificationName)
         {
-            return commandMap.ContainsKey(notificationName);
+            return commandMap.ContainsKey(notificationName) || asyncCommandMap.ContainsKey(notificationName);
         }
 
         /// <summary>Local reference to View</summary>
@@ -170,6 +194,7 @@ namespace PureMVC.Core
 
         /// <summary>Mapping of Notification names to Command Class references</summary>
         protected readonly ConcurrentDictionary<string, Func<ICommand>> commandMap;
+        protected readonly ConcurrentDictionary<string, Func<ICommandAsync>> asyncCommandMap;
 
         /// <summary>Singleton instance</summary>
         protected static IController instance;
