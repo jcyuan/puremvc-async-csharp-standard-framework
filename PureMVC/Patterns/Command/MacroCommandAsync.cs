@@ -14,6 +14,12 @@ using PureMVC.Patterns.Observer;
 
 namespace PureMVC.Patterns.Command
 {
+    public enum SubCommandExecutionType
+    {
+        Parallel,
+        Sequential
+    }
+    
     /// <summary>
     /// A base <c>ICommand</c> implementation that executes other <c>ICommand</c>s.
     /// </summary>
@@ -42,6 +48,8 @@ namespace PureMVC.Patterns.Command
     /// <seealso cref="PureMVC.Patterns.Command.SimpleCommand"/>
     public class MacroCommandAsync : Notifier, ICommandAsync
     {
+        protected readonly SubCommandExecutionType _subCommandExecutionType;
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -56,8 +64,9 @@ namespace PureMVC.Patterns.Command
         ///         sure to call <c>super()</c>.
         ///     </para>
         /// </remarks>
-        public MacroCommandAsync()
+        public MacroCommandAsync(SubCommandExecutionType subCommandExecutionType = SubCommandExecutionType.Parallel)
         {
+            _subCommandExecutionType = subCommandExecutionType;
             subcommands = new List<Func<ICommandAsync>>();
             InitializeMacroCommand();
         }
@@ -118,8 +127,20 @@ namespace PureMVC.Patterns.Command
         /// <param name="notification">the <c>INotification</c> object to be passsed to each <i>SubCommand</i>.</param>
         public virtual async Task ExecuteAsync(INotification notification)
         {
-            var tasks = subcommands.Select(factory => factory().ExecuteAsync(notification)).ToArray();
-            await Task.WhenAll(tasks);
+            if (_subCommandExecutionType == SubCommandExecutionType.Parallel)
+            {
+                var tasks = subcommands.Select(factory => factory().ExecuteAsync(notification)).ToArray();
+                await Task.WhenAll(tasks);
+                
+            }
+            else
+            {
+                foreach (var factory in subcommands)
+                {
+                    await factory().ExecuteAsync(notification);
+                }
+            }
+            
             subcommands.Clear();
         }
 
