@@ -5,6 +5,8 @@
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
+using System.Threading.Tasks;
+
 namespace PureMVC.Interfaces
 {
     /// <summary>
@@ -46,5 +48,7 @@ namespace PureMVC.Interfaces
         /// <param name="body">the body of the notification (optional)</param>
         /// <param name="type">the type of the notification (optional)</param>
         void SendNotification(string notificationName, object body = null, string type = null);
+        
+        Task SendNotificationAsync(string notificationName, object body = null, string type = null);
     }
 }

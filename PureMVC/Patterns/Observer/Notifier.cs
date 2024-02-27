@@ -5,6 +5,7 @@
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
+using System.Threading.Tasks;
 using PureMVC.Interfaces;
 
 namespace PureMVC.Patterns.Observer
@@ -53,6 +54,11 @@ namespace PureMVC.Patterns.Observer
         public virtual void SendNotification(string notificationName, object body = null, string type = null)
         {
             Facade.SendNotification(notificationName, body, type);
+        }
+        
+        public virtual async Task SendNotificationAsync(string notificationName, object body = null, string type = null)
+        {
+            await Facade.SendNotificationAsync(notificationName, body, type);
         }
 
         /// <summary>Return the Singleton Facade instance</summary>

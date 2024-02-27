@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.Threading.Tasks;
 
 namespace PureMVC.Interfaces
 {
@@ -124,5 +125,7 @@ namespace PureMVC.Interfaces
         /// </remarks>
         /// <param name="notification">the <c>INotification</c> to have the <c>View</c> notify <c>Observers</c> of.</param>
         void NotifyObservers(INotification notification);
+        
+        Task NotifyObserversAsync(INotification notification);
     }
 }

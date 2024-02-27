@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.Threading.Tasks;
 using PureMVC.Interfaces;
 using PureMVC.Core;
 using PureMVC.Patterns.Observer;
@@ -287,6 +288,11 @@ namespace PureMVC.Patterns.Facade
         {
             NotifyObservers(new Notification(notificationName, body, type));
         }
+        
+        public virtual async Task SendNotificationAsync(string notificationName, object body = null, string type = null)
+        {
+            await NotifyObserversAsync(new Notification(notificationName, body, type));
+        }
 
         /// <summary>
         /// Notify <c>Observer</c>s.
@@ -307,6 +313,11 @@ namespace PureMVC.Patterns.Facade
         public virtual void NotifyObservers(INotification notification)
         {
             view.NotifyObservers(notification);
+        }
+        
+        public virtual async Task NotifyObserversAsync(INotification notification)
+        {
+            await view.NotifyObserversAsync(notification);
         }
 
         /// <summary>References to Controller</summary>
