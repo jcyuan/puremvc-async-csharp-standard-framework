@@ -64,6 +64,8 @@ namespace PureMVC.Interfaces
         /// <param name="notificationName">the name of the <c>INotification</c> to associate the <c>ICommand</c> with.</param>
         /// <param name="factory">a reference to the <c>FuncDelegate</c> of the <c>ICommand</c></param>
         void RegisterCommand(string notificationName, Func<ICommand> factory);
+        
+        void RegisterCommand(string notificationName, Func<ICommandAsync> factory);
 
         /// <summary>
         /// Remove a previously registered <c>ICommand</c> to <c>INotification</c> mapping from the Controller.

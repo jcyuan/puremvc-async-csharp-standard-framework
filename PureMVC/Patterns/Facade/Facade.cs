@@ -168,6 +168,11 @@ namespace PureMVC.Patterns.Facade
         {
             controller.RegisterCommand(notificationName, factory);
         }
+        
+        public virtual void RegisterCommand(string notificationName, Func<ICommandAsync> factory)
+        {
+            controller.RegisterCommand(notificationName, factory);
+        }
 
         /// <summary>
         /// Remove a previously registered <c>ICommand</c> to <c>INotification</c> mapping from the Controller.
