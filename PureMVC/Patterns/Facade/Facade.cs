@@ -75,11 +75,11 @@ namespace PureMVC.Patterns.Facade
         /// </summary>
         /// <param name="facadeFunc">the <c>FuncDelegate</c> of the <c>IFacade</c></param>
         /// <returns>the Singleton instance of the Facade</returns>
-        public static IFacade GetInstance(Func<IFacade> facadeFunc)
+        public static IFacade GetInstance(Func<IFacade> facadeFunc = null)
         {
             if (instance == null)
             {
-                instance = facadeFunc();
+                instance = facadeFunc?.Invoke();
             }
             return instance;
         }
