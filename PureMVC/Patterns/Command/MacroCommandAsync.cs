@@ -129,19 +129,22 @@ namespace PureMVC.Patterns.Command
         {
             if (_subCommandExecutionType == SubCommandExecutionType.Parallel)
             {
-                var tasks = subcommands.Select(factory => factory().ExecuteAsync(notification)).ToArray();
-                await Task.WhenAll(tasks);
-                
+                var listCopy = new Func<ICommandAsync>[subcommands.Count];
+                subcommands.CopyTo(listCopy, 0);
+                subcommands.Clear();
+
+                var taskList = listCopy.Select(factory => factory().ExecuteAsync(notification)).ToArray();
+                await Task.WhenAll(taskList);
             }
             else
             {
-                foreach (var factory in subcommands)
+                while(subcommands.Count > 0)
                 {
+                    var factory = subcommands[0];
+                    subcommands.RemoveAt(0);
                     await factory().ExecuteAsync(notification);
                 }
             }
-            
-            subcommands.Clear();
         }
 
         /// <summary>List of subcommands</summary>
