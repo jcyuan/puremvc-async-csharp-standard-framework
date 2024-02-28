@@ -3,7 +3,7 @@ Please use these classes for async execution:
 * `MacroCommandAsync`
 * `SimpleCommandAsync`
 
-  TODO: Doc & Test
+  TODO: Docs
 
 -------------------------------------------------------
 
