@@ -5,6 +5,7 @@
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
+using System.Threading.Tasks;
 using PureMVC.Interfaces;
 using PureMVC.Patterns.Observer;
 
@@ -48,6 +49,11 @@ namespace PureMVC.Patterns.Mediator
         {
             return new string[0];
         }
+        
+        public virtual string[] ListAsyncNotificationInterests()
+        {
+            return new string[0];
+        }
 
         /// <summary>
         /// Handle <c>INotification</c>s.
@@ -62,6 +68,11 @@ namespace PureMVC.Patterns.Mediator
         /// <param name="notification"></param>
         public virtual void HandleNotification(INotification notification)
         {
+        }
+        
+        public virtual Task HandleNotificationAsync(INotification notification)
+        {
+            return Task.CompletedTask;
         }
 
         /// <summary>

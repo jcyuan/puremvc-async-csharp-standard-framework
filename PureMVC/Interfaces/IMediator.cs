@@ -5,6 +5,8 @@
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
+using System.Threading.Tasks;
+
 namespace PureMVC.Interfaces
 {
     /// <summary>
@@ -64,11 +66,15 @@ namespace PureMVC.Interfaces
         /// <returns> an <c>Array</c> of the <c>INotification</c> names this <c>IMediator</c> has an interest in.</returns>
         string[] ListNotificationInterests();
 
+        string[] ListAsyncNotificationInterests();
+
         /// <summary>
         /// Handle an <c>INotification</c>.
         /// </summary>
         /// <param name="notification">notification the <c>INotification</c> to be handled</param>
         void HandleNotification(INotification notification);
+        
+        Task HandleNotificationAsync(INotification notification);
 
         /// <summary>
         /// Called by the View when the Mediator is registered

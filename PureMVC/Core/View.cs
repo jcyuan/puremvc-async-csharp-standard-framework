@@ -223,6 +223,7 @@ namespace PureMVC.Core
             {
                 // Get Notification interests, if any.
                 var interests = mediator.ListNotificationInterests();
+                var asyncInterests = mediator.ListAsyncNotificationInterests();
 
                 // Register Mediator as an observer for each notification of interests
                 if (interests.Length > 0)
@@ -236,6 +237,19 @@ namespace PureMVC.Core
                         RegisterObserver(interest, observer);
                     }
                 }
+                
+                if (asyncInterests.Length > 0)
+                {
+                    // Create Observer referencing this mediator's handleNotification method
+                    IObserverAsync observer = new ObserverAsync(mediator.HandleNotificationAsync, mediator);
+
+                    // Register Mediator as Observer for its list of Notification interests
+                    foreach (var interest in asyncInterests)
+                    {
+                        RegisterObserver(interest, observer);
+                    }
+                }
+                
                 // alert the mediator that it has been registered
                 mediator.OnRegister();
             }
