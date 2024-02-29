@@ -1,5 +1,7 @@
-## Enhanced with asynchronous execution support
-Please use these classes for async execution:
+## Enhanced with asynchronous execution support (compatible with original sync version)
+Please use these classes/methods for async execution:
+* `ListAsyncNotificationInterests`
+* `HandleNotificationAsync`
 * `MacroCommandAsync`
 * `SimpleCommandAsync`
 
