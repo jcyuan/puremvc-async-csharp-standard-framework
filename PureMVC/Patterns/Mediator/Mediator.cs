@@ -5,6 +5,7 @@
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
+using System;
 using System.Threading.Tasks;
 using PureMVC.Interfaces;
 using PureMVC.Patterns.Observer;
@@ -47,12 +48,12 @@ namespace PureMVC.Patterns.Mediator
         /// <returns>the list of <c>INotification</c> names</returns>
         public virtual string[] ListNotificationInterests()
         {
-            return new string[0];
+            return Array.Empty<string>();
         }
         
         public virtual string[] ListAsyncNotificationInterests()
         {
-            return new string[0];
+            return Array.Empty<string>();
         }
 
         /// <summary>

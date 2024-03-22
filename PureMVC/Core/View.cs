@@ -276,7 +276,8 @@ namespace PureMVC.Core
             if (mediatorMap.TryRemove(mediatorName, out var mediator))
             {
                 // for every notification this mediator is interested in...
-                var interests = mediator.ListNotificationInterests();
+                var interests = mediator.ListNotificationInterests()
+                    .Concat(mediator.ListAsyncNotificationInterests());
                 foreach (var interest in interests)
                 {
                     // remove the observer linking the mediator 
