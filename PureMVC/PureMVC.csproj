@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <PackageId>PureMVC</PackageId>
     <Version>4.2.0</Version>
     <Description>PureMVC is a lightweight framework for creating applications based upon the classic Model-View-Controller design meta-pattern.</Description>
     <Copyright>Copyright © 2020 Saad Shams, Futurescale, Inc.</Copyright>
     <license>Creative Commons Attribution 3.0</license>
-    <PackageLicenseUrl>https://github.com/PureMVC/puremvc-csharp-standard-framework/blob/master/LICENSE</PackageLicenseUrl>
+    <License>https://github.com/PureMVC/puremvc-csharp-standard-framework/blob/master/LICENSE</License>
     <PackageProjectUrl>http://forums.puremvc.org/index.php?board=20.0</PackageProjectUrl>
-    <PackageIconUrl>http://puremvc.org/images/puremvc-logo.png</PackageIconUrl>
+    <PackageIcon>http://puremvc.org/images/puremvc-logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/PureMVC/puremvc-csharp-standard-framework</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <Authors>Saad Shams</Authors>
@@ -18,7 +18,7 @@
     <AssemblyVersion>4.2.0.0</AssemblyVersion>
     <FileVersion>4.2.0.0</FileVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
   
 </Project>
