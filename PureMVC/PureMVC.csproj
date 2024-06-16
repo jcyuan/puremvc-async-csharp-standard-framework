@@ -10,11 +10,11 @@
     <License>https://github.com/PureMVC/puremvc-csharp-standard-framework/blob/master/LICENSE</License>
     <PackageProjectUrl>http://forums.puremvc.org/index.php?board=20.0</PackageProjectUrl>
     <PackageIcon>http://puremvc.org/images/puremvc-logo.png</PackageIcon>
-    <RepositoryUrl>https://github.com/PureMVC/puremvc-csharp-standard-framework</RepositoryUrl>
+    <RepositoryUrl>https://github.com/jcyuan/puremvc-async-csharp-standard-framework</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <Authors>Saad Shams</Authors>
     <Company>Futurescale, Inc.</Company>
-    <PackageTags>PureMVC Standard MVC</PackageTags>
+    <PackageTags>Async PureMVC Standard MVC</PackageTags>
     <AssemblyVersion>4.2.0.0</AssemblyVersion>
     <FileVersion>4.2.0.0</FileVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
